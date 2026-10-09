@@ -132,6 +132,35 @@ def init_db():
         except Exception as seed_err:
             print(f"[AgriSmart] Mandi seed skipped: {seed_err}")
 
+        # Seed Climate Normals if empty
+        try:
+            cur.execute("SELECT COUNT(*) FROM climate_normals")
+            if cur.fetchone()[0] == 0:
+                cur.executemany(
+                    "INSERT INTO climate_normals (state, temperature, humidity, rainfall) VALUES (%s, %s, %s, %s)",
+                    [
+                        ('Punjab', 24.5, 62.0, 140.0),
+                        ('Haryana', 25.0, 60.0, 130.0),
+                        ('Uttar Pradesh', 26.0, 65.0, 180.0),
+                        ('Maharashtra', 27.5, 70.0, 220.0),
+                        ('Karnataka', 26.5, 72.0, 210.0),
+                        ('Gujarat', 28.0, 58.0, 110.0),
+                        ('Rajasthan', 29.0, 45.0, 85.0),
+                        ('Tamil Nadu', 29.5, 75.0, 190.0),
+                        ('West Bengal', 27.0, 80.0, 250.0),
+                        ('Bihar', 26.0, 70.0, 200.0),
+                        ('Madhya Pradesh', 26.5, 55.0, 150.0),
+                        ('Andhra Pradesh', 28.5, 72.0, 175.0),
+                        ('Telangana', 28.0, 65.0, 160.0),
+                        ('Kerala', 27.0, 85.0, 300.0),
+                        ('Odisha', 27.5, 78.0, 240.0),
+                        ('Assam', 24.0, 82.0, 280.0),
+                    ]
+                )
+                conn.commit()
+        except Exception as cn_err:
+            print(f"[AgriSmart] Climate normals seed skipped: {cn_err}")
+
         cur.close()
         conn.close()
         print(f"[+] Connected to MySQL database '{database}' on {host}:{port}.")
