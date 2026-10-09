@@ -1,0 +1,130 @@
+{
+  "crop_recommendation": {
+    "model_name": "Crop Recommendation (GaussianNB)",
+    "majority_class_baseline": 25.0,
+    "cv5_mean": 92.2,
+    "cv5_std": 2.56,
+    "seed10_mean": 92.26,
+    "seed10_min": 91.6,
+    "seed10_max": 92.8,
+    "confusion_matrix": [
+      [
+        24,
+        1,
+        0,
+        0
+      ],
+      [
+        2,
+        21,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        25,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        23
+      ]
+    ],
+    "classes": [
+      "Cotton",
+      "Maize",
+      "Rice",
+      "Wheat"
+    ]
+  },
+  "pest_prediction": {
+    "model_name": "Pest Risk Prediction (GaussianNB)",
+    "majority_class_baseline": 33.33,
+    "cv5_mean": 92.99,
+    "cv5_std": 2.17,
+    "seed10_mean": 92.05,
+    "seed10_min": 91.47,
+    "seed10_max": 92.74,
+    "confusion_matrix": [
+      [
+        26,
+        0,
+        0
+      ],
+      [
+        0,
+        24,
+        3
+      ],
+      [
+        3,
+        1,
+        23
+      ]
+    ],
+    "classes": [
+      "Aphids",
+      "Locust",
+      "NoPest"
+    ]
+  },
+  "yield_classification": {
+    "model_name": "Yield Category Classification (GaussianNB)",
+    "majority_class_baseline": 33.33,
+    "cv5_mean": 90.21,
+    "cv5_std": 3.36,
+    "seed10_mean": 90.48,
+    "seed10_min": 89.49,
+    "seed10_max": 91.48,
+    "confusion_matrix": [
+      [
+        24,
+        0,
+        2
+      ],
+      [
+        0,
+        23,
+        4
+      ],
+      [
+        0,
+        0,
+        27
+      ]
+    ],
+    "classes": [
+      "High",
+      "Low",
+      "Medium"
+    ]
+  },
+  "market_forecast_regression": {
+    "model_name": "Market Price Forecast (RandomForestRegressor - Time-Series Split)",
+    "overall_mae": 57.62,
+    "overall_r2": 0.997,
+    "horizons": {
+      "7_day": {
+        "model_mae": 52.5,
+        "model_r2": 0.9976,
+        "naive_mae": 47.16,
+        "naive_r2": 0.9981
+      },
+      "14_day": {
+        "model_mae": 64.53,
+        "model_r2": 0.9965,
+        "naive_mae": 75.59,
+        "naive_r2": 0.9953
+      },
+      "30_day": {
+        "model_mae": 56.19,
+        "model_r2": 0.9964,
+        "naive_mae": 106.28,
+        "naive_r2": 0.9907
+      }
+    }
+  }
+}

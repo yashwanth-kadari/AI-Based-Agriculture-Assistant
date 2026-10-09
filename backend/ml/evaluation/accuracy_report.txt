@@ -1,0 +1,37 @@
+================================================================================
+                        AGRISMART AI — MODEL EVALUATION REPORT                  
+================================================================================
+
+--- MODEL: Crop Recommendation (GaussianNB) ---
+  Architecture                 : Gaussian Naive Bayes
+  Majority Class Baseline      : 25.0%
+  5-Fold Cross-Validation      : 92.2% ± 2.56%
+  10-Seed Stability (Mean)     : 92.26%
+  10-Seed Stability (Min / Max): 91.6% / 92.8%
+  Classes                      : Cotton, Maize, Rice, Wheat
+
+--- MODEL: Pest Risk Prediction (GaussianNB) ---
+  Architecture                 : Gaussian Naive Bayes
+  Majority Class Baseline      : 33.33%
+  5-Fold Cross-Validation      : 92.99% ± 2.17%
+  10-Seed Stability (Mean)     : 92.05%
+  10-Seed Stability (Min / Max): 91.47% / 92.74%
+  Classes                      : Aphids, Locust, NoPest
+
+--- MODEL: Yield Category Classification (GaussianNB) ---
+  Architecture                 : Gaussian Naive Bayes
+  Majority Class Baseline      : 33.33%
+  5-Fold Cross-Validation      : 90.21% ± 3.36%
+  10-Seed Stability (Mean)     : 90.48%
+  10-Seed Stability (Min / Max): 89.49% / 91.48%
+  Classes                      : High, Low, Medium
+
+--- MODEL: Market Price Forecast (RandomForestRegressor - Time-Series Split) ---
+  Overall Time-Series Split MAE: Rs.57.62
+  Overall Time-Series Split R² : 0.997
+  Horizon Evaluation:
+    - 7 DAY: Model MAE=Rs.52.5, R²=0.9976 | Naive MAE=Rs.47.16, R²=0.9981
+    - 14 DAY: Model MAE=Rs.64.53, R²=0.9965 | Naive MAE=Rs.75.59, R²=0.9953
+    - 30 DAY: Model MAE=Rs.56.19, R²=0.9964 | Naive MAE=Rs.106.28, R²=0.9907
+
+================================================================================

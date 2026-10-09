@@ -1,0 +1,85 @@
+Total scanned endpoints: 83
+
+admin.py             /statistics                            [GET         ] get_admin_statistics             REQUIRED
+admin.py             /users                                 [GET         ] get_all_users                    REQUIRED
+admin.py             /users/<target_id>                     [GET         ] get_user_by_id                   REQUIRED
+admin.py             /users                                 [POST        ] admin_create_user                REQUIRED
+admin.py             /users/<target_id>                     [PUT         ] admin_edit_user                  REQUIRED
+admin.py             /promote                               [POST        ] promote_user                     REQUIRED
+admin.py             /demote                                [POST        ] demote_user                      REQUIRED
+admin.py             /suspend                               [POST        ] set_user_status                  REQUIRED
+admin.py             /permissions                           [GET         ] get_master_permissions_list      REQUIRED
+admin.py             /users/<target_id>/permissions         [GET         ] get_user_permissions_endpoint    REQUIRED
+admin.py             /toggle-permission                     [POST        ] update_user_permissions          REQUIRED
+admin.py             /activity                              [GET         ] get_admin_activity_logs          REQUIRED
+admin.py             /users/<target_id>                     [DELETE      ] delete_user                      REQUIRED
+admin.py             /logs                                  [GET         ] get_logs                         REQUIRED
+admin.py             /ml-status                             [GET         ] get_ml_status                    REQUIRED
+admin.py             /ml/reload                             [POST        ] reload_ml_models                 REQUIRED
+admin.py             /settings/info                         [GET         ] get_system_settings_info         REQUIRED
+admin.py             /settings/verify-models                [POST        ] verify_model_weights             REQUIRED
+admin.py             /settings/export-audit-logs            [GET         ] export_audit_logs                REQUIRED
+admin.py             /alerts                                [GET         ] get_admin_alerts                 REQUIRED
+admin.py             /alerts                                [POST        ] create_admin_alert               REQUIRED
+admin.py             /alerts/<int:alert_id>                 [PUT         ] update_admin_alert               REQUIRED
+admin.py             /alerts/<int:alert_id>                 [DELETE      ] delete_admin_alert               REQUIRED
+admin.py             /marketplace/items                     [GET         ] get_admin_marketplace_items      REQUIRED
+admin.py             /marketplace/items/<int:item_id>       [PUT         ] update_admin_marketplace_item    REQUIRED
+admin.py             /marketplace/items/<int:item_id>       [DELETE      ] delete_admin_marketplace_item    REQUIRED
+admin.py             /community/posts                       [GET         ] get_admin_community_posts        REQUIRED
+admin.py             /community/posts/<int:post_id>         [DELETE      ] delete_admin_community_post      REQUIRED
+admin.py             /community/comments/<int:comment_id>   [DELETE      ] delete_admin_community_comment   REQUIRED
+admin.py             /climate-normals                       [GET         ] get_admin_climate_normals        REQUIRED
+admin.py             /climate-normals                       [POST        ] save_admin_climate_normals       REQUIRED
+admin.py             /crops                                 [GET         ] get_admin_crops                  REQUIRED
+admin.py             /crops                                 [POST        ] create_admin_crop                REQUIRED
+admin.py             /crops/<int:crop_id>                   [PUT         ] update_admin_crop                REQUIRED
+admin.py             /crops/<int:crop_id>                   [DELETE      ] delete_admin_crop                REQUIRED
+admin.py             /reports/data                          [GET         ] get_admin_reports_data           REQUIRED
+admin.py             /reports/export                        [GET         ] export_admin_report              REQUIRED
+admin.py             /analytics/data                        [GET         ] get_admin_analytics_data         REQUIRED
+auth.py              /signup                                [POST        ] signup                           NONE (UNPROTECTED)
+auth.py              /login                                 [POST        ] login                            NONE (UNPROTECTED)
+auth.py              /profile                               [PUT         ] update_profile                   OPTIONAL
+auth.py              /reset-password                        [POST        ] reset_password                   REQUIRED
+community.py         /posts                                 [GET         ] get_posts                        NONE (UNPROTECTED)
+community.py         /posts                                 [POST        ] create_post                      NONE (UNPROTECTED)
+community.py         /posts/<int:post_id>                   [GET         ] get_post                         NONE (UNPROTECTED)
+community.py         /posts/<int:post_id>/replies           [POST        ] add_reply                        NONE (UNPROTECTED)
+contact.py           /submit                                [POST        ] submit_contact                   NONE (UNPROTECTED)
+dashboard.py         /                                      [GET         ] get_dashboard_summary            NONE (UNPROTECTED)
+financial.py         /autofill                              [GET         ] get_autofill_data                NONE (UNPROTECTED)
+financial.py         /calculate                             [POST        ] calculate_financials             NONE (UNPROTECTED)
+financial.py         /summary                               [GET         ] financial_summary                NONE (UNPROTECTED)
+financial.py         /history                               [GET         ] get_financial_history            NONE (UNPROTECTED)
+history.py           /                                      [GET         ] get_user_history                 NONE (UNPROTECTED)
+market.py            /mandis                                [GET         ] get_mandis                       NONE (UNPROTECTED)
+market.py            /mandis                                [POST        ] create_mandi                     REQUIRED
+market.py            /mandis/<int:mandi_id>                 [PUT         ] update_mandi                     REQUIRED
+market.py            /mandis/<int:mandi_id>                 [DELETE      ] delete_mandi                     REQUIRED
+market.py            /prices                                [GET         ] get_market_prices                NONE (UNPROTECTED)
+market.py            /prices                                [POST        ] add_market_price                 REQUIRED
+market.py            /prices/<int:price_id>                 [PUT         ] update_market_price              REQUIRED
+market.py            /prices/<int:price_id>                 [DELETE      ] delete_market_price              REQUIRED
+market.py            /history                               [GET         ] get_mandi_price_history          NONE (UNPROTECTED)
+market.py            /forecast                              [POST        ] generate_market_forecast         OPTIONAL
+market.py            /forecast/history                      [GET         ] get_market_forecast_history      OPTIONAL
+marketplace.py       /items                                 [GET         ] get_items                        NONE (UNPROTECTED)
+marketplace.py       /items                                 [POST        ] add_item                         NONE (UNPROTECTED)
+marketplace.py       /items/<int:item_id>                   [DELETE      ] delete_item                      NONE (UNPROTECTED)
+predictions.py       /crop                                  [POST        ] recommend_crop                   NONE (UNPROTECTED)
+predictions.py       /pest                                  [POST        ] handle_predict_pest              NONE (UNPROTECTED)
+predictions.py       /yield                                 [POST        ] handle_predict_yield             NONE (UNPROTECTED)
+predictions.py       /crop/history                          [GET         ] get_crop_history                 NONE (UNPROTECTED)
+predictions.py       /pest/history                          [GET         ] get_pest_history                 NONE (UNPROTECTED)
+predictions.py       /yield/history                         [GET         ] get_yield_history                NONE (UNPROTECTED)
+reports.py           /analytics                             [GET         ] get_farmer_analytics             OPTIONAL
+reports.py           /financials                            [POST        ] add_financial_record             OPTIONAL
+reports.py           /yields                                [POST        ] add_yield_record                 OPTIONAL
+reports.py           /download                              [GET         ] download_report                  OPTIONAL
+risk.py              /status                                [GET         ] get_risk_status                  NONE (UNPROTECTED)
+soil.py              /analyze                               [POST        ] analyze_soil                     NONE (UNPROTECTED)
+soil.py              /reports                               [GET         ] get_soil_reports                 NONE (UNPROTECTED)
+sustainability.py    /practices                             [GET         ] get_practices                    NONE (UNPROTECTED)
+sustainability.py    /audit                                 [POST        ] calculate_audit                  NONE (UNPROTECTED)
+sustainability.py    /history                               [GET         ] get_sustainability_history       NONE (UNPROTECTED)

@@ -1,0 +1,192 @@
+{
+  "POST /api/predictions/crop": [
+    {
+      "concurrency": 1,
+      "total_requests": 100,
+      "avg_ms": 2426.23,
+      "median_ms": 2308.09,
+      "p95_ms": 3030.58,
+      "min_ms": 2173.62,
+      "max_ms": 3272.22,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 10,
+      "total_requests": 100,
+      "avg_ms": 3142.37,
+      "median_ms": 2903.34,
+      "p95_ms": 5255.81,
+      "min_ms": 2235.54,
+      "max_ms": 5491.14,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 25,
+      "total_requests": 100,
+      "avg_ms": 6935.25,
+      "median_ms": 6854.05,
+      "p95_ms": 9557.87,
+      "min_ms": 2291.57,
+      "max_ms": 10152.34,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    }
+  ],
+  "POST /api/predictions/pest": [
+    {
+      "concurrency": 1,
+      "total_requests": 100,
+      "avg_ms": 2150.02,
+      "median_ms": 2140.02,
+      "p95_ms": 2249.74,
+      "min_ms": 2086.06,
+      "max_ms": 2380.15,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 10,
+      "total_requests": 100,
+      "avg_ms": 2349.87,
+      "median_ms": 2367.67,
+      "p95_ms": 2671.5,
+      "min_ms": 2098.62,
+      "max_ms": 2708.35,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 25,
+      "total_requests": 100,
+      "avg_ms": 2512.64,
+      "median_ms": 2415.49,
+      "p95_ms": 3297.08,
+      "min_ms": 2082.05,
+      "max_ms": 3332.15,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    }
+  ],
+  "POST /api/predictions/yield": [
+    {
+      "concurrency": 1,
+      "total_requests": 100,
+      "avg_ms": 2183.01,
+      "median_ms": 2183.74,
+      "p95_ms": 2240.56,
+      "min_ms": 2126.74,
+      "max_ms": 2259.24,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 10,
+      "total_requests": 100,
+      "avg_ms": 2469.25,
+      "median_ms": 2425.62,
+      "p95_ms": 3051.28,
+      "min_ms": 2138.98,
+      "max_ms": 3089.44,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 25,
+      "total_requests": 100,
+      "avg_ms": 3254.85,
+      "median_ms": 3410.77,
+      "p95_ms": 4444.04,
+      "min_ms": 2157.92,
+      "max_ms": 4482.45,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    }
+  ],
+  "POST /api/market/forecast": [
+    {
+      "concurrency": 1,
+      "total_requests": 100,
+      "avg_ms": 2164.8,
+      "median_ms": 2161.42,
+      "p95_ms": 2196.41,
+      "min_ms": 2120.1,
+      "max_ms": 2288.1,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 10,
+      "total_requests": 100,
+      "avg_ms": 2539.4,
+      "median_ms": 2522.97,
+      "p95_ms": 2892.37,
+      "min_ms": 2149.28,
+      "max_ms": 2938.2,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 25,
+      "total_requests": 100,
+      "avg_ms": 4068.53,
+      "median_ms": 4033.79,
+      "p95_ms": 5377.42,
+      "min_ms": 2134.81,
+      "max_ms": 5538.51,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    }
+  ],
+  "POST /api/auth/login": [
+    {
+      "concurrency": 1,
+      "total_requests": 100,
+      "avg_ms": 2552.22,
+      "median_ms": 2544.71,
+      "p95_ms": 2656.75,
+      "min_ms": 2444.78,
+      "max_ms": 2676.06,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 10,
+      "total_requests": 100,
+      "avg_ms": 3306.74,
+      "median_ms": 3342.63,
+      "p95_ms": 3734.42,
+      "min_ms": 2502.53,
+      "max_ms": 3791.52,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    },
+    {
+      "concurrency": 25,
+      "total_requests": 100,
+      "avg_ms": 5056.77,
+      "median_ms": 5421.21,
+      "p95_ms": 6225.11,
+      "min_ms": 2597.61,
+      "max_ms": 6570.62,
+      "errors": 0,
+      "error_rate": "0.0%",
+      "error_details": []
+    }
+  ]
+}

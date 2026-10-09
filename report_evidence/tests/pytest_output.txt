@@ -1,0 +1,41 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\python.exe
+cachedir: .pytest_cache
+rootdir: D:\coder\agriculture
+plugins: anyio-4.14.2
+collecting ... collected 26 items
+
+report_evidence/tests/test_01_unit.py::test_unit_soil_npk_thresholds PASSED [  3%]
+report_evidence/tests/test_01_unit.py::test_unit_soil_health_status PASSED [  7%]
+report_evidence/tests/test_01_unit.py::test_unit_financial_calculations PASSED [ 11%]
+report_evidence/tests/test_01_unit.py::test_unit_sustainability_score_and_grades PASSED [ 15%]
+report_evidence/tests/test_01_unit.py::test_unit_risk_overall_level_logic PASSED [ 19%]
+report_evidence/tests/test_02_auth.py::test_auth_valid_login PASSED      [ 23%]
+report_evidence/tests/test_02_auth.py::test_auth_wrong_password_rejected PASSED [ 26%]
+report_evidence/tests/test_02_auth.py::test_auth_duplicate_email_rejected PASSED [ 30%]
+report_evidence/tests/test_02_auth.py::test_auth_password_stored_as_hash PASSED [ 34%]
+report_evidence/tests/test_03_authorization.py::test_authorization_farmer_cannot_access_admin_routes PASSED [ 38%]
+report_evidence/tests/test_03_authorization.py::test_authorization_secondary_admin_without_permission_refused PASSED [ 42%]
+report_evidence/tests/test_03_authorization.py::test_authorization_secondary_admin_with_permission_succeeds PASSED [ 46%]
+report_evidence/tests/test_03_authorization.py::test_unauthenticated_history_endpoints_return_401 PASSED [ 50%]
+report_evidence/tests/test_03_authorization.py::test_unauthenticated_financial_endpoints_return_401 PASSED [ 53%]
+report_evidence/tests/test_03_authorization.py::test_unauthenticated_marketplace_delete_returns_401 PASSED [ 57%]
+report_evidence/tests/test_03_authorization.py::test_marketplace_delete_owner_or_admin_only PASSED [ 61%]
+report_evidence/tests/test_04_prediction_prefill.py::test_prediction_prefill_soil_values_from_latest_report PASSED [ 65%]
+report_evidence/tests/test_04_prediction_prefill.py::test_prediction_fallback_climate_normals_response_flag PASSED [ 69%]
+report_evidence/tests/test_04_prediction_prefill.py::test_prediction_fallback_is_estimated_flag_stored_in_db PASSED [ 73%]
+report_evidence/tests/test_04_prediction_prefill.py::test_prediction_non_blank_climate_not_overridden PASSED [ 76%]
+report_evidence/tests/test_05_risk_alert_expiry.py::test_risk_alert_expiry_behavior PASSED [ 80%]
+report_evidence/tests/test_06_audit_log.py::test_admin_audit_logging_create_update_delete PASSED [ 84%]
+report_evidence/tests/test_07_market_forecast.py::test_market_forecast_14_day PASSED [ 88%]
+report_evidence/tests/test_07_market_forecast.py::test_market_forecast_30_day PASSED [ 92%]
+report_evidence/tests/test_07_market_forecast.py::test_market_forecast_7_day_backend_acceptance PASSED [ 96%]
+report_evidence/tests/test_08_integration.py::test_end_to_end_integration_flow PASSED [100%]
+
+============================== warnings summary ===============================
+report_evidence/tests/test_03_authorization.py::test_marketplace_delete_owner_or_admin_only
+  C:\Users\hp\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\jwt\api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 22 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+    return self._jws.encode(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================== 26 passed, 1 warning in 120.87s (0:02:00) ==================
