@@ -168,5 +168,14 @@ export const getYieldHistory = (userId) => API.get('/predictions/yield/history',
 export const getFinancialHistory = (userId) => API.get('/financial/history', { params: { user_id: userId } });
 export const getSustainabilityHistory = (userId) => API.get('/sustainability/history', { params: { user_id: userId } });
 
+// Weather Forecast
+export const getWeatherForecast = (params) => API.get('/weather/forecast', { params });
+
+// Expert Advice & Consultations
+export const getExpertConsultations = (params) => API.get('/expert/consultations', { params });
+export const submitExpertConsultation = (data) => API.post('/expert/consultations', data);
+export const replyExpertConsultation = (id, data) => API.post(`/expert/consultations/${id}/reply`, data);
+export const deleteExpertConsultation = (id) => API.delete(`/expert/consultations/${id}`);
+
 export default API;
 

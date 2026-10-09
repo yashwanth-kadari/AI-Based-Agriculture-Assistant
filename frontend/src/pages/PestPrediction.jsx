@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Bug, AlertCircle, CheckCircle, Sprout, ShieldAlert,
   FileText, FileCheck, ArrowLeft, PlusCircle, FlaskConical, Sparkles
@@ -31,7 +30,6 @@ const SYMPTOM_OPTIONS = [
 ];
 
 const PestPrediction = ({ user }) => {
-  const navigate = useNavigate();
 
   // Mode Selection: null (unselected), 'manual', or 'soil_report'
   const [inputMode, setInputMode] = useState(null);
@@ -66,13 +64,7 @@ const PestPrediction = ({ user }) => {
   const [historyRecords, setHistoryRecords] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(false);
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchHistory();
-    }
-  }, [user?.id]);
-
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     if (!user?.id) return;
     setHistoryLoading(true);
     try {
@@ -83,17 +75,13 @@ const PestPrediction = ({ user }) => {
     } finally {
       setHistoryLoading(false);
     }
-  };
+  }, [user?.id]);
 
-  // Auto-fetch latest soil report when Option 2 mode is activated
   useEffect(() => {
-    if (inputMode === 'soil_report') {
-      fetchLatestSoilReport();
-    }
-  }, [inputMode]);
+    fetchHistory();
+  }, [fetchHistory]);
 
-
-  const fetchLatestSoilReport = async () => {
+  const fetchLatestSoilReport = useCallback(async () => {
     if (!user?.id) return;
     setLoadingSoilReport(true);
     try {
@@ -120,7 +108,14 @@ const PestPrediction = ({ user }) => {
     } finally {
       setLoadingSoilReport(false);
     }
-  };
+  }, [user?.id, qualitativeData.crop, qualitativeData.symptoms]);
+
+  // Auto-fetch latest soil report when Option 2 mode is activated
+  useEffect(() => {
+    if (inputMode === 'soil_report') {
+      fetchLatestSoilReport();
+    }
+  }, [inputMode, fetchLatestSoilReport]);
 
   const handleQualitativeChange = (e) => {
     setQualitativeData({ ...qualitativeData, [e.target.name]: e.target.value });

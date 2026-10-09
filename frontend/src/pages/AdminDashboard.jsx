@@ -26,7 +26,7 @@ import SystemReportsTab from '../components/admin/SystemReportsTab';
 import PlatformAnalyticsTab from '../components/admin/PlatformAnalyticsTab';
 
 // ── API ───────────────────────────────────────────────────────────────────────
-import { getAdminStats, getAdminUsers } from '../utils/api';
+import { getAdminStats, getAdminUsers, getSystemSettingsInfo, verifyModelWeights, exportAuditLogs } from '../utils/api';
 
 // ── Tab Config ────────────────────────────────────────────────────────────────
 const TABS = [
@@ -302,7 +302,14 @@ const SystemSettingsTab = ({ isPrimary }) => {
                         <Settings className="h-5 w-5 text-eco-600" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-gray-900">System & Platform Settings</h3>
+                        <div className="flex items-center gap-2">
+                            <h3 className="text-lg font-bold text-gray-900">System & Platform Settings</h3>
+                            {isPrimary && (
+                                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                                    Primary Admin Mode
+                                </span>
+                            )}
+                        </div>
                         <p className="text-xs text-gray-500">AgriSmart AI system configurations and backend security parameters.</p>
                     </div>
                 </div>

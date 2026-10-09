@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, BarChart, Bar, Legend, LineChart, Line, PieChart, Pie, Cell,
@@ -68,7 +68,7 @@ const Analytics = ({ user }) => {
     status: 'Harvested',
   });
 
-  const fetchAnalyticsData = async () => {
+  const fetchAnalyticsData = useCallback(async () => {
     setLoading(true);
     try {
       const { data: res } = await getAnalytics({
@@ -82,13 +82,13 @@ const Analytics = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.id, period, selectedCrop]);
 
   useEffect(() => {
     if (user?.id) {
       fetchAnalyticsData();
     }
-  }, [user?.id, period, selectedCrop]);
+  }, [user?.id, fetchAnalyticsData]);
 
   const handleDownload = async (type) => {
     setDownloading(type);

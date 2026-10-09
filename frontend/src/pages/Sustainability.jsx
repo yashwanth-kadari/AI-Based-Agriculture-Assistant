@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Leaf, Info, Percent, ShieldCheck, HelpCircle, Droplet, Sun, Wind, Sprout } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -25,7 +25,7 @@ const Sustainability = ({ user }) => {
     const [rotations, setRotations] = useState({});
     const [configLoading, setConfigLoading] = useState(true);
 
-    const fetchConfig = async () => {
+    const fetchConfig = useCallback(async () => {
         try {
             const { data } = await getSustainabilityPractices();
             setPractices(data.practices || []);
@@ -35,9 +35,9 @@ const Sustainability = ({ user }) => {
         } finally {
             setConfigLoading(false);
         }
-    };
+    }, []);
 
-    const fetchHistory = async () => {
+    const fetchHistory = useCallback(async () => {
         if (!user?.id) return;
         setHistoryLoading(true);
         try {
@@ -48,14 +48,14 @@ const Sustainability = ({ user }) => {
         } finally {
             setHistoryLoading(false);
         }
-    };
+    }, [user?.id]);
 
     useEffect(() => {
         fetchConfig();
         if (user?.id) {
             fetchHistory();
         }
-    }, [user?.id]);
+    }, [fetchConfig, fetchHistory, user?.id]);
 
     const handleAudit = async (e) => {
         e.preventDefault();

@@ -124,6 +124,7 @@ const Sidebar = ({ user }) => {
     {
       label: 'Farm Management',
       items: [
+        { name: 'Weather Forecast', to: '/weather', icon: Thermometer },
         { name: 'Soil Health', to: '/soil-health', icon: Droplet },
         { name: 'Financial Planning', to: '/financial-planning', icon: Wallet },
         { name: 'Risk Monitoring', to: '/risk-monitoring', icon: AlertTriangle },
@@ -135,6 +136,7 @@ const Sidebar = ({ user }) => {
       items: [
         { name: 'Marketplace', to: '/marketplace', icon: ShoppingBag },
         { name: 'Community Forum', to: '/community', icon: MessageSquare },
+        { name: 'Expert Advice', to: '/expert-advice', icon: ShieldCheck },
       ],
     },
     {

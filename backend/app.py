@@ -15,6 +15,8 @@ from routes.marketplace import marketplace_bp
 from routes.community import community_bp
 from routes.sustainability import sustainability_bp
 from routes.market import market_bp
+from routes.weather import weather_bp
+from routes.expert import expert_bp
 
 from models import db
 import os
@@ -92,6 +94,8 @@ app.register_blueprint(marketplace_bp,   url_prefix='/api/marketplace')
 app.register_blueprint(community_bp,     url_prefix='/api/community')
 app.register_blueprint(sustainability_bp, url_prefix='/api/sustainability')
 app.register_blueprint(market_bp,        url_prefix='/api/market')
+app.register_blueprint(weather_bp,       url_prefix='/api/weather')
+app.register_blueprint(expert_bp,        url_prefix='/api/expert')
 
 
 @app.route('/')

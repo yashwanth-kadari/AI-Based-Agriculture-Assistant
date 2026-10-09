@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Sprout, CheckCircle, AlertCircle, FlaskConical, Info, Sparkles } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -31,13 +31,7 @@ const CropRecommendation = ({ user }) => {
   const [historyRecords, setHistoryRecords] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(false);
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchHistory();
-    }
-  }, [user?.id]);
-
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     if (!user?.id) return;
     setHistoryLoading(true);
     try {
@@ -48,7 +42,11 @@ const CropRecommendation = ({ user }) => {
     } finally {
       setHistoryLoading(false);
     }
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
 
   // Manual auto-fill from user's latest soil report on demand
   const handleAutoFill = async () => {
@@ -71,7 +69,7 @@ const CropRecommendation = ({ user }) => {
       } else {
         setError('No previous soil test report found. Please enter parameters manually.');
       }
-    } catch (err) {
+    } catch {
       setError('Could not fetch soil report for auto-fill. Please enter values manually.');
     }
   };

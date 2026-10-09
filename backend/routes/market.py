@@ -721,7 +721,7 @@ def generate_market_forecast():
         elif hasattr(latest_date, 'date'):
             latest_date_obj = latest_date.date() if isinstance(latest_date, datetime) else latest_date
         else:
-            latest_date_obj = datetime.utcnow().date()
+            latest_date_obj = datetime.now().date()
 
         target_date_obj = latest_date_obj + timedelta(days=forecast_days)
         day_of_week = target_date_obj.weekday()
@@ -739,7 +739,13 @@ def generate_market_forecast():
             mandi_id, crop_code, current_price, lag_1, lag_7, rolling_7, day_of_week, month, forecast_days
         ]])
 
-        predicted_price = float(round(model.predict(feature_vector)[0], 2))
+        feature_cols = getattr(model, 'feature_names_in_', None)
+        if feature_cols is not None:
+            import pandas as pd
+            feat_df = pd.DataFrame(feature_vector, columns=feature_cols)
+            predicted_price = float(round(model.predict(feat_df)[0], 2))
+        else:
+            predicted_price = float(round(model.predict(feature_vector)[0], 2))
 
         # Calculate expected % change
         expected_change_pct = float(round(((predicted_price - current_price) / current_price) * 100.0, 2))

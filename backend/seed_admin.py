@@ -16,18 +16,18 @@ def hash_password(password):
 
 
 def _upsert_user(cursor, conn, user_id, name, email, password, role, is_super_admin=0, is_verified=1, status='active', state='Andhra Pradesh', district='Guntur'):
-    """Insert or update a seed user idempotently."""
+    """Insert or update a seed user idempotently without resetting existing passwords."""
     cursor.execute("SELECT id FROM users WHERE user_id = %s OR email = %s", (user_id, email))
     existing = cursor.fetchone()
-    hashed_pw = hash_password(password)
     if existing:
         cursor.execute(
-            "UPDATE users SET user_id = %s, name = %s, password_hash = %s, role = %s, is_super_admin = %s, is_verified = %s, status = %s WHERE id = %s",
-            (user_id, name, hashed_pw, role, is_super_admin, is_verified, status, existing['id'])
+            "UPDATE users SET user_id = %s, name = %s, role = %s, is_super_admin = %s, is_verified = %s, status = %s WHERE id = %s",
+            (user_id, name, role, is_super_admin, is_verified, status, existing['id'])
         )
         conn.commit()
         uid = existing['id']
     else:
+        hashed_pw = hash_password(password)
         cursor.execute(
             """INSERT INTO users (user_id, name, email, password_hash, role, is_super_admin, is_verified, status, state, district)
                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
@@ -48,12 +48,13 @@ def seed_super_admin():
         cursor = conn.cursor(dictionary=True)
 
         # ── 1. Primary Admin ──────────────────────────────────────────────────
+        admin_default_pass = os.getenv('ADMIN_PASSWORD', 'Admin@123')
         primary_id = _upsert_user(
             cursor, conn,
             user_id='superadmin',
             name='Primary Administrator',
             email='admin@agrismart.in',
-            password='Admin@123',
+            password=admin_default_pass,
             role='primary_admin',
             is_super_admin=1,
             is_verified=1,

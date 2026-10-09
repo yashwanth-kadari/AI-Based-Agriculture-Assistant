@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Tractor, AlertCircle, CheckCircle, Info, Sparkles, Sprout,
   FileText, FileCheck, ArrowLeft, PlusCircle, FlaskConical
@@ -40,8 +39,6 @@ const FERTILIZER_OPTIONS = [
 ];
 
 const YieldPrediction = ({ user }) => {
-  const navigate = useNavigate();
-
   // Mode Selection: null (unselected), 'manual', or 'soil_report'
   const [inputMode, setInputMode] = useState(null);
 
@@ -81,13 +78,7 @@ const YieldPrediction = ({ user }) => {
   const [historyRecords, setHistoryRecords] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(false);
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchHistory();
-    }
-  }, [user?.id]);
-
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     if (!user?.id) return;
     setHistoryLoading(true);
     try {
@@ -98,17 +89,13 @@ const YieldPrediction = ({ user }) => {
     } finally {
       setHistoryLoading(false);
     }
-  };
+  }, [user?.id]);
 
-  // Auto-fetch latest soil report when Option 2 mode is activated
   useEffect(() => {
-    if (inputMode === 'soil_report') {
-      fetchLatestSoilReport();
-    }
-  }, [inputMode]);
+    fetchHistory();
+  }, [fetchHistory]);
 
-
-  const fetchLatestSoilReport = async () => {
+  const fetchLatestSoilReport = useCallback(async () => {
     if (!user?.id) return;
     setLoadingSoilReport(true);
     try {
@@ -138,7 +125,14 @@ const YieldPrediction = ({ user }) => {
     } finally {
       setLoadingSoilReport(false);
     }
-  };
+  }, [user?.id, qualitativeData.crop_type, qualitativeData.area, qualitativeData.irrigation, qualitativeData.fertilizer_usage, qualitativeData.previous_yield]);
+
+  // Auto-fetch latest soil report when Option 2 mode is activated
+  useEffect(() => {
+    if (inputMode === 'soil_report') {
+      fetchLatestSoilReport();
+    }
+  }, [inputMode, fetchLatestSoilReport]);
 
   const handleQualitativeChange = (e) => {
     setQualitativeData({ ...qualitativeData, [e.target.name]: e.target.value });

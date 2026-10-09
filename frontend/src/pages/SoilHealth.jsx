@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Droplet, AlertCircle, Beaker, CloudRain, FlaskConical } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -26,23 +26,22 @@ const SoilHealth = ({ user }) => {
   const [reports, setReports] = useState([]);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchReports();
-    }
-  }, [user?.id]);
-
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     if (!user?.id) return;
     setReportsLoading(true);
     try {
       const { data } = await getSoilReports(user.id);
       setReports(data.reports || []);
-    } catch {
+    } catch (e) {
+      console.error('Failed to load soil reports', e);
     } finally {
       setReportsLoading(false);
     }
-  };
+  }, [user?.id]);
+
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 

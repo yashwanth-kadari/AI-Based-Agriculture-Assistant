@@ -70,7 +70,7 @@ python ml/evaluation/evaluate_all.py
 
 ## 🗄 Database Schema
 
-The system uses 17 relational tables defined in `backend/database/schema.sql`:
+The system uses 19 relational tables defined in `backend/database/schema.sql`:
 
 1. `users`: User profile accounts, authentication hashes, contact info, and roles (`farmer`, `secondary_admin`, `primary_admin`).
 2. `predictions`: Recorded crop recommendation inputs and AI predictions.
@@ -89,6 +89,8 @@ The system uses 17 relational tables defined in `backend/database/schema.sql`:
 15. `crop_yield_records`: Harvest logs tracking actual vs expected yield quantities.
 16. `market_forecasts`: Saved ML market price projections and trend metrics.
 17. `sustainability_assessments`: Eco-audit entries, sustainability scores, and grades.
+18. `climate_normals`: Regional state baselines (temperature, humidity, rainfall) for AI prediction fallbacks.
+19. `expert_advisories`: Farmer consultations with certified agronomists and status tracking.
 
 ---
 
@@ -102,10 +104,19 @@ The system uses 17 relational tables defined in `backend/database/schema.sql`:
 - `POST /api/auth/change-password` — Password change endpoint
 
 ### 🚜 Predictions & Intelligence (`/api/predictions`)
-- `POST /api/predictions/crop` — AI crop recommendation engine
-- `POST /api/predictions/pest` — Pest risk prediction engine
-- `POST /api/predictions/yield` — Yield level classification engine
-- `POST /api/predictions/market-forecast` — Mandi price forecasting engine
+- `POST /api/predictions/crop` — AI crop recommendation engine (GaussianNB, 92.2% CV accuracy)
+- `POST /api/predictions/pest` — Pest risk prediction engine (GaussianNB, 92.99% CV accuracy)
+- `POST /api/predictions/yield` — Yield level classification engine (GaussianNB, 90.21% CV accuracy)
+- `POST /api/predictions/market-forecast` — Mandi price forecasting engine (RandomForestRegressor, MAE ₹57.62)
+
+### 🌤 Weather & Agronomic Advisories (`/api/weather`)
+- `GET /api/weather/forecast` — Real-time 7-day weather outlook, Open-Meteo live sync, regional climate normals fallback, and spraying/irrigation advisories.
+
+### 🧑‍🌾 Expert Agronomist Advisories (`/api/expert`)
+- `GET /api/expert/consultations` — List farmer consultations (scoped to author for farmers, system-wide for admins)
+- `POST /api/expert/consultations` — Submit inquiry with crop, category, urgency, and field symptoms
+- `POST /api/expert/consultations/<id>/reply` — Agronomist/Admin answers farmer inquiry with treatment guidance
+- `DELETE /api/expert/consultations/<id>` — Remove pending or resolved consultation
 
 ### 🧪 Soil, Finance & Sustainability
 - `POST /api/soil/analyze` — Run soil health analysis
@@ -188,6 +199,34 @@ npm install
 npm run dev
 ```
 > Frontend runs on: **`http://localhost:5173`**
+
+---
+
+### 4. Running Automated Tests & Linting
+```bash
+# Run complete Python test suite (29 tests covering Unit, Auth, RBAC, ML, Weather, Expert)
+python -m pytest report_evidence/tests/ -v
+
+# Run Frontend linting (0 warnings, 0 errors)
+cd frontend
+npm run lint
+
+# Build production bundle
+npm run build
+```
+
+---
+
+## 🔐 Default Test Credentials
+
+The database is pre-seeded with test accounts for each role tier:
+
+| Role | Email | Password | Access Scope |
+|------|-------|----------|--------------|
+| **Primary Administrator** | `admin@agrismart.in` | `Admin@123` | Full root system & permission access |
+| **Secondary Administrator** | `admin@agriassist.com` | `admin123` | Delegated administrative control |
+| **Farmer** | `farmer@agriassist.com` | `farmer123` | Full farmer modules & predictions |
+| **Standard User** | `user@agriassist.com` | `user123` | Public marketplace & community |
 
 ---
 

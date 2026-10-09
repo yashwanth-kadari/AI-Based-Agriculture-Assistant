@@ -304,7 +304,7 @@ export const SystemOverviewTab = ({ stats }) => {
     );
 };
 
-const StatCard = ({ label, value, sub, icon: Icon, color }) => {
+const StatCard = ({ label, value, sub, icon, color }) => {
     const colorClasses = {
         eco: 'bg-eco-50 text-eco-600 border-eco-100',
         emerald: 'bg-emerald-50 text-emerald-600 border-emerald-100',
@@ -324,7 +324,7 @@ const StatCard = ({ label, value, sub, icon: Icon, color }) => {
                 <p className="text-[11px] text-gray-400 font-medium mt-0.5">{sub}</p>
             </div>
             <div className={`p-3.5 rounded-2xl border ${colorClasses[color] || colorClasses.eco}`}>
-                <Icon className="h-6 w-6" />
+                {icon ? React.createElement(icon, { className: "h-6 w-6" }) : null}
             </div>
         </div>
     );

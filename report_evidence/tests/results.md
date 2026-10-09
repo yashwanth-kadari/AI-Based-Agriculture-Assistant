@@ -4,7 +4,7 @@
 **Test Framework**: pytest 9.1.1 (Python 3.14.7)  
 **Execution Timestamp**: 2026-10-09  
 **Full Raw Terminal Log**: [`pytest_output.txt`](file:///d:/coder/agriculture/report_evidence/tests/pytest_output.txt)  
-**Summary**: **26 PASSED**, **0 FAILED** out of 26 total test cases (100% Pass Rate).
+**Summary**: **29 PASSED**, **0 FAILED** out of 29 total test cases (100% Pass Rate).
 
 ---
 
@@ -38,6 +38,9 @@
 | **TEST-07B** | Market Forecast | 30-day price forecasting | `POST /api/market/forecast` with `mandi_id=3`, `crop_name='Rice'`, `forecast_days=30` | HTTP 200, predicted price > 0, trend indicator returned | HTTP 200, `predicted_price`: ₹2420.21, `forecast_days`: 30 | **PASS** |
 | **TEST-07C** | Market Forecast | 7-day price forecasting backend acceptance | `POST /api/market/forecast` with `forecast_days=7` | Verify whether backend accepts the 7-day horizon | Backend accepts `forecast_days=7` and returns HTTP 200 with `predicted_price`: ₹2414.55 | **PASS** |
 | **TEST-08A** | Integration | End-to-end user lifecycle & history audit | Full pipeline: Register farmer -> Login -> Post soil analysis -> Run crop prediction -> Query `/api/history/` | HTTP 200 on all stages; `/api/history/` contains 'Crop Recommendation' action | Complete pipeline executed cleanly; history contains 'Crop Recommendation' entry | **PASS** |
+| **TEST-09A** | Weather | Live 7-day weather forecast & field advisories | `GET /api/weather/forecast?state=Punjab&district=Ludhiana` | HTTP 200, current weather, 7-day daily forecast, spray & irrigation advisories | HTTP 200, 7 days forecast returned, field advisories generated | **PASS** |
+| **TEST-09B** | Weather | Weather endpoint regional baseline fallback | `GET /api/weather/forecast?state=UnknownRegion999` | HTTP 200, graceful fallback handling without crashing | HTTP 200, status success, 7 daily predictions returned | **PASS** |
+| **TEST-09C** | Expert Advice | Full consultation lifecycle (Create, List, Reply, Delete) | Farmer posts question (`POST /api/expert/consultations`), lists consultations (`GET`), admin replies (`POST /reply`), farmer deletes (`DELETE`) | Status 201 created with 'Pending', 200 on fetch, 200 on reply with 'Answered', 200 on delete | Complete lifecycle executed cleanly; 'Answered' status and expert advice preserved | **PASS** |
 
 ---
 

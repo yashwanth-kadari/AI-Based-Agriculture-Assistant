@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
     Sprout, Bug, Tractor, TrendingUp, Droplet, Wallet,
     AlertTriangle, Leaf, ShoppingBag, MessageSquare, BarChart3,
-    ArrowRight, Sparkles, CheckCircle2, Shield
+    ArrowRight, Sparkles, CheckCircle2, Shield, CloudSun, ShieldCheck
 } from 'lucide-react';
 
 const farmerFeatureGroups = [
@@ -17,7 +17,7 @@ const farmerFeatureGroups = [
                 description: 'Get optimal crop suggestions based on your exact soil NPK, pH, temperature, humidity & rainfall.',
                 path: '/crop-recommendation',
                 icon: Sprout,
-                badge: '99.4% Accuracy',
+                badge: '92.2% CV Accuracy',
                 badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
                 btnText: 'Analyze Soil & Recommend',
                 accent: 'from-emerald-500 to-teal-600',
@@ -84,6 +84,17 @@ const farmerFeatureGroups = [
                 accent: 'from-green-500 to-emerald-600',
             },
             {
+                id: 'weather-forecast',
+                title: 'Weather Forecast & Field Advisories',
+                description: '7-day agrometeorological outlook, precipitation probabilities, and precision spraying & irrigation advisories.',
+                path: '/weather',
+                icon: CloudSun,
+                badge: 'Live Forecast',
+                badgeColor: 'bg-cyan-100 text-cyan-800 border-cyan-200',
+                btnText: 'View Weather Outlook',
+                accent: 'from-cyan-500 to-blue-600',
+            },
+            {
                 id: 'risk-mon',
                 title: 'Risk & Weather Monitoring',
                 description: 'Real-time climate alerts, drought advisories, extreme rainfall warnings, and pest risks.',
@@ -136,13 +147,24 @@ const farmerFeatureGroups = [
             {
                 id: 'community',
                 title: 'Farmer Community Forum',
-                description: 'Ask farming questions, share harvest experience, and seek advice from verified experts.',
+                description: 'Ask farming questions, share harvest experience, and seek advice from fellow farmers.',
                 path: '/community',
                 icon: MessageSquare,
                 badge: 'Farmer Forum',
                 badgeColor: 'bg-sky-100 text-sky-800 border-sky-200',
                 btnText: 'Join Discussion',
                 accent: 'from-sky-500 to-blue-600',
+            },
+            {
+                id: 'expert-advice',
+                title: 'Agronomist Advisory & Support',
+                description: 'Submit crop inquiries directly to verified agronomists, soil scientists, and plant pathologists.',
+                path: '/expert-advice',
+                icon: ShieldCheck,
+                badge: 'Specialist Support',
+                badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                btnText: 'Consult an Expert',
+                accent: 'from-emerald-600 to-teal-700',
             },
         ],
     },

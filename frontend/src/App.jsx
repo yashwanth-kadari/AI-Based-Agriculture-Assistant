@@ -21,6 +21,8 @@ import Profile from './pages/Profile';
 import Marketplace from './pages/Marketplace';
 import Community from './pages/Community';
 import Sustainability from './pages/Sustainability';
+import WeatherForecast from './pages/WeatherForecast';
+import ExpertAdvice from './pages/ExpertAdvice';
 import FarmerFeatures from './pages/FarmerFeatures';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
@@ -106,10 +108,10 @@ function App() {
             <main className={`flex-1 overflow-y-auto ${user ? 'p-6 bg-gray-50' : ''}`}>
               <ErrorBoundary>
                 <Routes>
-                  {/* Default Root Path: Directs unauthenticated users straight to Signup */}
+                  {/* Default Root Path: Directs to Dashboard if logged in, or Home landing page */}
                   <Route
                     path="/"
-                    element={user ? <Navigate to="/dashboard" replace /> : <Navigate to="/signup" replace />}
+                    element={user ? <Navigate to="/dashboard" replace /> : <Home />}
                   />
 
                   {/* Auth Routes */}
@@ -141,6 +143,10 @@ function App() {
                   <Route path="/marketplace" element={user ? <Marketplace user={user} /> : <Navigate to="/signup" replace />} />
                   <Route path="/community" element={user ? <Community user={user} /> : <Navigate to="/signup" replace />} />
                   <Route path="/sustainability" element={user ? <Sustainability user={user} /> : <Navigate to="/signup" replace />} />
+                  <Route path="/weather" element={user ? <WeatherForecast user={user} /> : <Navigate to="/signup" replace />} />
+                  <Route path="/weather-forecast" element={<Navigate to="/weather" replace />} />
+                  <Route path="/expert-advice" element={user ? <ExpertAdvice user={user} /> : <Navigate to="/signup" replace />} />
+                  <Route path="/expert" element={<Navigate to="/expert-advice" replace />} />
                   <Route
                     path="/features"
                     element={

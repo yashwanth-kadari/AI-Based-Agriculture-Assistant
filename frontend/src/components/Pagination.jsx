@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export const getPaginationRange = (current, total) => {
+const getPaginationRange = (current, total) => {
     if (total <= 7) {
         return Array.from({ length: total }, (_, i) => i + 1);
     }

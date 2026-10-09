@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Wallet, TrendingUp, TrendingDown, IndianRupee, Sparkles, RefreshCw } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -31,13 +31,7 @@ const FinancialPlanning = ({ user }) => {
   const [historyRecords, setHistoryRecords] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(false);
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchHistory();
-    }
-  }, [user?.id]);
-
-  const fetchHistory = async () => {
+  const fetchHistory = useCallback(async () => {
     if (!user?.id) return;
     setHistoryLoading(true);
     try {
@@ -48,14 +42,13 @@ const FinancialPlanning = ({ user }) => {
     } finally {
       setHistoryLoading(false);
     }
-  };
+  }, [user?.id]);
 
-  // Fetch real market price & prediction yield default whenever crop changes
   useEffect(() => {
-    fetchAutofillData(form.crop);
-  }, [form.crop, user?.id]);
+    fetchHistory();
+  }, [fetchHistory]);
 
-  const fetchAutofillData = async (selectedCrop) => {
+  const fetchAutofillData = useCallback(async (selectedCrop) => {
     setAutofillLoading(true);
     try {
       const res = await API.get(`/financial/autofill?crop=${selectedCrop}`);
@@ -81,7 +74,12 @@ const FinancialPlanning = ({ user }) => {
     } finally {
       setAutofillLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch real market price & prediction yield default whenever crop changes
+  useEffect(() => {
+    fetchAutofillData(form.crop);
+  }, [form.crop, fetchAutofillData]);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 

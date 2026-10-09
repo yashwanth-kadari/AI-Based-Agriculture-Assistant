@@ -57,7 +57,7 @@ const features = [
 ];
 
 const stats = [
-  { value: '99.2%', label: 'Prediction Accuracy', icon: Zap },
+  { value: '92.2%', label: 'Cross-Validated Accuracy', icon: Zap },
   { value: '5+', label: 'Crop Categories', icon: Sprout },
   { value: '7', label: 'Environmental Factors', icon: Globe },
   { value: '100%', label: 'Free to Use', icon: CheckCircle },

@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FileText, Download, Users, BarChart3, TrendingUp, History, Filter, RefreshCw, CheckCircle, MapPin, Shield } from 'lucide-react';
 import { getAdminReportsData, exportAdminReport } from '../../utils/api';
 
-const SystemReportsTab = ({ user }) => {
+const SystemReportsTab = () => {
     const [reportData, setReportData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [exporting, setExporting] = useState('');
     const [dateFilter, setDateFilter] = useState('30d');
-    const [activeSection, setActiveSection] = useState('all');
     const [toast, setToast] = useState('');
 
     const fetchReportsData = async () => {

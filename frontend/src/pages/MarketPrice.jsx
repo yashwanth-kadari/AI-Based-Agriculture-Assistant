@@ -116,7 +116,7 @@ const MarketPrice = ({ user }) => {
 
   useEffect(() => {
     fetchMandisForState(selectedState);
-  }, [selectedState]);
+  }, [selectedState, fetchMandisForState]);
 
   // 2. Fetch market price for selected Mandi & Crop + Comparison Prices in State
   const fetchPriceDetails = useCallback(async () => {
@@ -244,8 +244,6 @@ const MarketPrice = ({ user }) => {
     });
     return Array.from(map.values()).sort((a, b) => (b.price || 0) - (a.price || 0));
   }, [comparisonPrices]);
-
-  const bestMandiInState = latestComparisonPrices.length > 0 ? latestComparisonPrices[0] : null;
 
   // Pagination calculations for comparison full history
   const totalHistoryPages = Math.ceil(comparisonPrices.length / historyPageSize) || 1;

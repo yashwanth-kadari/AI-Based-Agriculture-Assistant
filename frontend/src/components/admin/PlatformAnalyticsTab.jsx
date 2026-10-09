@@ -20,7 +20,7 @@ const COLOR_CLASSES = {
     green: { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', bar: 'bg-green-500' },
 };
 
-const PlatformAnalyticsTab = ({ user }) => {
+const PlatformAnalyticsTab = () => {
     const [analytics, setAnalytics] = useState(null);
     const [loading, setLoading] = useState(true);
 

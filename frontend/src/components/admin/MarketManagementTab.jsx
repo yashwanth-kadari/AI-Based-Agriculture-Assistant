@@ -20,7 +20,7 @@ const CROPS = [
 
 const UNITS = ['Quintal', 'Kg', 'Ton'];
 
-const MarketManagementTab = ({ currentUser }) => {
+const MarketManagementTab = () => {
     const [subTab, setSubTab] = useState('prices'); // 'mandis' | 'prices' | 'history'
     const [currentPagePrices, setCurrentPagePrices] = useState(1);
     const [currentPageMandis, setCurrentPageMandis] = useState(1);
@@ -77,11 +77,9 @@ const MarketManagementTab = ({ currentUser }) => {
         try {
             const { data } = await getMandis({ state: mandiStateFilter, search: mandiSearch });
             setMandis(data.mandis || []);
-            if (!priceForm.mandi_id && data.mandis?.length > 0) {
-                setPriceForm(prev => ({ ...prev, mandi_id: data.mandis[0].id }));
-            }
-            if (!histMandi && data.mandis?.length > 0) {
-                setHistMandi(data.mandis[0].id);
+            if (data.mandis?.length > 0) {
+                setPriceForm(prev => (prev.mandi_id ? prev : { ...prev, mandi_id: data.mandis[0].id }));
+                setHistMandi(prev => (prev || data.mandis[0].id));
             }
         } catch {
             setMandis([]);
@@ -596,7 +594,12 @@ const MarketManagementTab = ({ currentUser }) => {
 
                     <Card title="Historical Price Trajectory" icon={BarChart3}>
                         <div className="h-72">
-                            {historyData.length > 0 ? (
+                            {loadingHistory ? (
+                                <div className="flex flex-col items-center justify-center h-full text-eco-600">
+                                    <RefreshCw className="h-8 w-8 animate-spin mb-2" />
+                                    <p className="text-xs font-semibold">Loading price trajectory...</p>
+                                </div>
+                            ) : historyData.length > 0 ? (
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart data={historyData}>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />

@@ -282,4 +282,20 @@ CREATE TABLE IF NOT EXISTS sustainability_assessments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 18. Expert Advisories & Consultations Table
+CREATE TABLE IF NOT EXISTS expert_advisories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    crop_name VARCHAR(100) NOT NULL,
+    topic VARCHAR(100) NOT NULL,
+    question TEXT NOT NULL,
+    urgency VARCHAR(50) DEFAULT 'Normal',
+    status VARCHAR(50) DEFAULT 'Pending',
+    expert_reply TEXT NULL,
+    expert_name VARCHAR(255) NULL,
+    replied_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
