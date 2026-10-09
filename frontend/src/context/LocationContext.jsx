@@ -38,11 +38,22 @@ export const LocationProvider = ({ children, user }) => {
         if (manualOverride?.state && manualOverride?.district) {
             return manualOverride;
         }
+        if (userKey) {
+            try {
+                const saved = localStorage.getItem(userKey);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.state && parsed.district) return parsed;
+                }
+            } catch {
+                // ignore
+            }
+        }
         if (user?.state && user?.district) {
             return { state: user.state, district: user.district };
         }
         return { state: null, district: null };
-    }, [manualOverride, user]);
+    }, [manualOverride, user, userKey]);
 
     const setLocation = (newLoc) => {
         const formatted = {
