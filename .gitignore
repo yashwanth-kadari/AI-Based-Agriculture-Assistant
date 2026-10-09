@@ -21,7 +21,9 @@ backend/.env
 .cache/
 *.db
 backend/*.db
-*.pkl
+# Trained ML models are intentionally tracked so they ship with the repo.
+# Only exclude stray backup copies.
+*.pkl.bak
 
 # OS files
 .DS_Store
