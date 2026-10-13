@@ -19,12 +19,18 @@ def hash_password(password):
     return generate_password_hash(password, method='pbkdf2:sha256')
 
 def get_caller_user(caller_id):
+    if not caller_id:
+        return None
+    try:
+        caller_id = int(caller_id)
+    except (ValueError, TypeError):
+        pass
     conn = get_db_connection()
     if not conn:
         return None
     try:
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT id, user_id, name, email, role, is_super_admin, is_verified, status, can_create_accounts FROM users WHERE id = %s OR user_id = %s", (caller_id, caller_id))
+        cursor.execute("SELECT id, user_id, name, email, role, is_super_admin, is_verified, status, can_create_accounts FROM users WHERE id = %s OR user_id = %s", (caller_id, str(caller_id)))
         user = cursor.fetchone()
         return user
     finally:

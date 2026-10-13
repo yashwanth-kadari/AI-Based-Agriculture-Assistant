@@ -17,6 +17,10 @@ PEST_RISK_MAP = {
 @jwt_required()
 def get_risk_status():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:

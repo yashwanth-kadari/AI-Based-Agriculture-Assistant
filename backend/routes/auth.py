@@ -230,21 +230,20 @@ def login():
 
 
 @auth_bp.route('/profile', methods=['PUT'])
-@jwt_required(optional=True)
+@jwt_required()
 def update_profile():
     data = request.json or {}
-    user_id = data.get('user_id')
+    user_id = get_jwt_identity()
+    if not user_id:
+        return jsonify({'error': 'Authentication required'}), 401
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
     name = (data.get('name') or '').strip()
     raw_role = (data.get('role') or '').strip().lower()
     state = (data.get('state') or 'Andhra Pradesh').strip()
     district = (data.get('district') or data.get('city_district') or 'Guntur').strip()
-
-    if not user_id:
-        # Try to get from JWT
-        try:
-            user_id = get_jwt_identity()
-        except Exception:
-            return jsonify({'error': 'User ID required'}), 400
 
     conn = get_db_connection()
     if not conn:

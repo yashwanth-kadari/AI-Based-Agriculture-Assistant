@@ -45,7 +45,6 @@ const Marketplace = ({ user }) => {
         setLoading(true);
         try {
             const params = {
-                user_id: user?.id || user?.user_id,
                 category: category !== 'All' ? category : undefined,
                 q: search || undefined,
                 scope: scope,
@@ -76,10 +75,7 @@ const Marketplace = ({ user }) => {
         setError('');
         setSubmitting(true);
         try {
-            await addMarketplaceItem({
-                ...form,
-                user_id: user?.id || user?.user_id
-            });
+            await addMarketplaceItem({ ...form });
             setForm({
                 title: '',
                 category: 'Seeds',
@@ -103,7 +99,7 @@ const Marketplace = ({ user }) => {
     const handleDelete = async (itemId) => {
         if (!window.confirm('Are you sure you want to remove this listing?')) return;
         try {
-            await deleteMarketplaceItem(itemId, user?.id || user?.user_id);
+            await deleteMarketplaceItem(itemId);
             fetchItems();
         } catch {
             alert('Failed to delete item listing.');

@@ -20,7 +20,7 @@ const FarmerDashboard = ({ user }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getDashboardData(user?.id);
+        const response = await getDashboardData();
         setData(response.data);
       } catch (err) {
         setError('Failed to load dashboard data. Is the backend running?');
@@ -30,6 +30,7 @@ const FarmerDashboard = ({ user }) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   if (loading) {

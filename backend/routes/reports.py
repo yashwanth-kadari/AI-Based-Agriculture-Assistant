@@ -35,21 +35,52 @@ def get_period_delta(period):
         return timedelta(days=365)
     return None
 
+def _is_caller_admin(user_id):
+    if not user_id:
+        return False
+    conn = get_db_connection()
+    if not conn:
+        return False
+    try:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT role, is_super_admin FROM users WHERE id = %s", (user_id,))
+        row = cursor.fetchone()
+        if row:
+            role = (row.get('role') or '').lower()
+            return bool(row.get('is_super_admin')) or role in ['primary_admin', 'superadmin', 'secondary_admin', 'admin']
+    except Exception:
+        pass
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+        except Exception:
+            pass
+    return False
+
 def get_effective_user_id():
-    """Extract authenticated user ID from JWT or request args."""
+    """Extract authenticated user ID from JWT. Only admins may supply a different user_id."""
     jwt_id = get_jwt_identity()
-    if jwt_id:
+    if not jwt_id:
+        return None
+    try:
+        caller_id = int(jwt_id)
+    except (ValueError, TypeError):
+        return None
+
+    target_id = request.args.get('user_id')
+    if not target_id:
+        body = request.get_json(silent=True) or {}
+        target_id = body.get('user_id')
+
+    if target_id and _is_caller_admin(caller_id):
         try:
-            return int(jwt_id)
+            return int(target_id)
         except (ValueError, TypeError):
             pass
-    arg_id = request.args.get('user_id') or (request.json and request.json.get('user_id'))
-    if arg_id:
-        try:
-            return int(arg_id)
-        except (ValueError, TypeError):
-            pass
-    return None
+
+    # Non-admins ALWAYS use caller's authenticated ID from token
+    return caller_id
 
 @reports_bp.route('/analytics', methods=['GET'])
 @jwt_required(optional=True)

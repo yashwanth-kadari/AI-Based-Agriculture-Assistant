@@ -179,7 +179,7 @@ const MarketPrice = ({ user }) => {
   const fetchForecastHistory = useCallback(async () => {
     setLoadingForecastHistory(true);
     try {
-      const { data } = await getMarketForecastHistory({ user_id: user?.id });
+      const { data } = await getMarketForecastHistory();
       setForecastHistory(data.forecasts || []);
     } catch {
       setForecastHistory([]);

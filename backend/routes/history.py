@@ -10,6 +10,10 @@ history_bp = Blueprint('history', __name__)
 @jwt_required()
 def get_user_history():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:

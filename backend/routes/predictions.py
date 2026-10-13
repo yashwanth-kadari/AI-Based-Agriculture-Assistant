@@ -91,14 +91,25 @@ def _process_input_params(data):
     missing_env = [k for k in env_keys if k not in data or data[k] is None or str(data[k]).strip() == '']
 
     user_state = (data.get('state') or '').strip()
-    user_id = data.get('user_id')
+    # Resolve user state from JWT identity for climate-normals fallback
+    jwt_user_id = None
+    try:
+        verify_jwt_in_request(optional=True)
+        jwt_raw = get_jwt_identity()
+        if jwt_raw:
+            try:
+                jwt_user_id = int(jwt_raw)
+            except (ValueError, TypeError):
+                jwt_user_id = jwt_raw
+    except Exception:
+        pass
     if missing_env:
-        if not user_state and user_id:
+        if not user_state and jwt_user_id:
             conn = get_db_connection()
             if conn:
                 try:
                     cursor = conn.cursor(dictionary=True)
-                    cursor.execute("SELECT state FROM users WHERE id = %s", (user_id,))
+                    cursor.execute("SELECT state FROM users WHERE id = %s", (jwt_user_id,))
                     u_row = cursor.fetchone()
                     if u_row and u_row.get('state'):
                         user_state = u_row['state'].strip()
@@ -107,6 +118,7 @@ def _process_input_params(data):
                 finally:
                     cursor.close()
                     conn.close()
+
 
         if not user_state:
             user_state = 'Andhra Pradesh'
@@ -151,15 +163,13 @@ def _process_input_params(data):
 
 
 @predictions_bp.route('/crop', methods=['POST'])
+@jwt_required()
 def recommend_crop():
     data = request.json or {}
-    user_id = data.get('user_id')
+    user_id = get_jwt_identity()
     try:
-        verify_jwt_in_request(optional=True)
-        jwt_uid = get_jwt_identity()
-        if jwt_uid:
-            user_id = jwt_uid
-    except Exception:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
         pass
 
     parsed, used_climate, err_res, status_code = _process_input_params(data)
@@ -209,15 +219,13 @@ def recommend_crop():
 
 
 @predictions_bp.route('/pest', methods=['POST'])
+@jwt_required()
 def handle_predict_pest():
     data = request.json or {}
-    user_id = data.get('user_id')
+    user_id = get_jwt_identity()
     try:
-        verify_jwt_in_request(optional=True)
-        jwt_uid = get_jwt_identity()
-        if jwt_uid:
-            user_id = jwt_uid
-    except Exception:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
         pass
     crop = (data.get('crop') or 'General Crop').strip()
 
@@ -265,15 +273,13 @@ def handle_predict_pest():
 
 
 @predictions_bp.route('/yield', methods=['POST'])
+@jwt_required()
 def handle_predict_yield():
     data = request.json or {}
-    user_id = data.get('user_id')
+    user_id = get_jwt_identity()
     try:
-        verify_jwt_in_request(optional=True)
-        jwt_uid = get_jwt_identity()
-        if jwt_uid:
-            user_id = jwt_uid
-    except Exception:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
         pass
     crop_type = (data.get('crop_type') or 'Crop').strip()
     is_estimated = bool(data.get('is_estimated', False))
@@ -340,6 +346,10 @@ def handle_predict_yield():
 @jwt_required()
 def get_crop_history():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:
@@ -367,6 +377,10 @@ def get_crop_history():
 @jwt_required()
 def get_pest_history():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:
@@ -394,6 +408,10 @@ def get_pest_history():
 @jwt_required()
 def get_yield_history():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:

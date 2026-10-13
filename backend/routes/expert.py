@@ -7,6 +7,10 @@ expert_bp = Blueprint('expert', __name__)
 
 def _get_current_user_info(cursor, jwt_user_id):
     """Retrieve database user record for the authenticated JWT caller."""
+    try:
+        jwt_user_id = int(jwt_user_id)
+    except (ValueError, TypeError):
+        pass
     cursor.execute(
         "SELECT id, user_id, name, email, role, is_super_admin, state, district FROM users WHERE id = %s OR user_id = %s",
         (jwt_user_id, str(jwt_user_id))
@@ -22,6 +26,10 @@ def get_consultations():
     Farmers see their own inquiries; Administrators see all platform inquiries.
     """
     jwt_user_id = get_jwt_identity()
+    try:
+        jwt_user_id = int(jwt_user_id)
+    except (ValueError, TypeError):
+        pass
     conn = get_db_connection()
     if not conn:
         return jsonify({'error': 'Database unavailable'}), 503
@@ -97,6 +105,10 @@ def get_consultations():
 def create_consultation():
     """Submit a new agricultural inquiry to verified agronomists."""
     jwt_user_id = get_jwt_identity()
+    try:
+        jwt_user_id = int(jwt_user_id)
+    except (ValueError, TypeError):
+        pass
     data = request.json or {}
 
     crop_name = (data.get('crop_name') or '').strip()

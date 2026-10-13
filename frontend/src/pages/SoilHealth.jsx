@@ -27,16 +27,17 @@ const SoilHealth = ({ user }) => {
   const [error, setError] = useState('');
 
   const fetchReports = useCallback(async () => {
-    if (!user?.id) return;
+    if (!user) return;
     setReportsLoading(true);
     try {
-      const { data } = await getSoilReports(user.id);
+      const { data } = await getSoilReports();
       setReports(data.reports || []);
     } catch (e) {
       console.error('Failed to load soil reports', e);
     } finally {
       setReportsLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const SoilHealth = ({ user }) => {
     setError('');
     setResult(null);
     try {
-      const { data } = await analyzeSoil({ ...formData, user_id: user?.id });
+      const { data } = await analyzeSoil({ ...formData });
       setResult(data);
       fetchReports();
     } catch (err) {

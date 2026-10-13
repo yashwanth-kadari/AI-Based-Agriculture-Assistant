@@ -38,31 +38,29 @@ const Sustainability = ({ user }) => {
     }, []);
 
     const fetchHistory = useCallback(async () => {
-        if (!user?.id) return;
+        if (!user) return;
         setHistoryLoading(true);
         try {
-            const { data } = await getSustainabilityHistory(user.id);
+            const { data } = await getSustainabilityHistory();
             setHistoryRecords(data?.history || []);
         } catch (err) {
             console.error('Error fetching sustainability history:', err);
         } finally {
             setHistoryLoading(false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user?.id]);
 
     useEffect(() => {
         fetchConfig();
-        if (user?.id) {
-            fetchHistory();
-        }
-    }, [fetchConfig, fetchHistory, user?.id]);
+        fetchHistory();
+    }, [fetchConfig, fetchHistory]);
 
     const handleAudit = async (e) => {
         e.preventDefault();
         setAuditLoading(true);
         try {
             const { data } = await submitSustainabilityAudit({
-                user_id: user?.id,
                 water_hours: waterHours,
                 fertilizer_type: fertilizerType,
                 crop_rotation: cropRotation,

@@ -32,16 +32,17 @@ const CropRecommendation = ({ user }) => {
   const [historyLoading, setHistoryLoading] = useState(false);
 
   const fetchHistory = useCallback(async () => {
-    if (!user?.id) return;
+    if (!user) return;
     setHistoryLoading(true);
     try {
-      const { data } = await getCropHistory(user.id);
+      const { data } = await getCropHistory();
       setHistoryRecords(data?.history || []);
     } catch (err) {
       console.error('Error fetching crop history:', err);
     } finally {
       setHistoryLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   useEffect(() => {
@@ -51,8 +52,8 @@ const CropRecommendation = ({ user }) => {
   // Manual auto-fill from user's latest soil report on demand
   const handleAutoFill = async () => {
     try {
-      if (!user?.id) return;
-      const { data } = await getSoilReports(user.id);
+      if (!user) return;
+      const { data } = await getSoilReports();
       if (data?.reports && data.reports.length > 0) {
         const latest = data.reports[0];
         setFormData({
@@ -102,7 +103,6 @@ const CropRecommendation = ({ user }) => {
         temperature: formData.temperature || undefined,
         humidity: formData.humidity || undefined,
         rainfall: formData.rainfall || undefined,
-        user_id: user?.id,
         state: user?.state,
       };
 

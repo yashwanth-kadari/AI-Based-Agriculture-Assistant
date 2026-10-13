@@ -32,16 +32,17 @@ const FinancialPlanning = ({ user }) => {
   const [historyLoading, setHistoryLoading] = useState(false);
 
   const fetchHistory = useCallback(async () => {
-    if (!user?.id) return;
+    if (!user) return;
     setHistoryLoading(true);
     try {
-      const { data } = await getFinancialHistory(user.id);
+      const { data } = await getFinancialHistory();
       setHistoryRecords(data?.history || []);
     } catch (err) {
       console.error('Error fetching financial history:', err);
     } finally {
       setHistoryLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   useEffect(() => {
@@ -89,7 +90,7 @@ const FinancialPlanning = ({ user }) => {
     setError('');
     setResult(null);
     try {
-      const payload = { ...form, user_id: user?.id };
+      const payload = { ...form };
       Object.keys(payload).forEach((k) => {
         if (payload[k] === '') delete payload[k];
       });

@@ -42,7 +42,7 @@ const Profile = ({ user, onLogin }) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const { data } = await getUserHistory(user.id);
+        const { data } = await getUserHistory();
         setHistory(data.history || []);
       } catch {
         // silently handle
@@ -51,7 +51,8 @@ const Profile = ({ user, onLogin }) => {
       }
     };
     fetchHistory();
-  }, [user.id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   const handleStateChange = (e) => {
     const s = e.target.value;
@@ -66,7 +67,6 @@ const Profile = ({ user, onLogin }) => {
     setSaveMsg('');
     try {
       const { data } = await updateProfile({
-        user_id: user.id,
         name: name.trim(),
         role: role,
         state: state,

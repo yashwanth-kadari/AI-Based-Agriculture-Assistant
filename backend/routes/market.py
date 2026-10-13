@@ -11,6 +11,10 @@ market_bp = Blueprint('market', __name__)
 def _get_current_user(user_id, conn=None):
     if not user_id:
         return None
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     should_close = False
     if conn is None:
@@ -643,7 +647,7 @@ def _load_market_forecast_model():
 
 
 @market_bp.route('/forecast', methods=['POST'])
-@jwt_required(optional=True)
+@jwt_required()
 def generate_market_forecast():
     current_user_id = get_jwt_identity()
     data = request.json or {}

@@ -62,10 +62,9 @@ const Community = ({ user }) => {
         setSubmitting(true);
         try {
             await createCommunityPost({
-                user_id: user.id,
                 title: newTitle.trim(),
                 content: newContent.trim(),
-                author_name: user.name,
+                author_name: user?.name,
             });
             setNewTitle('');
             setNewContent('');
@@ -84,9 +83,8 @@ const Community = ({ user }) => {
         setReplySubmitting(true);
         try {
             await addCommunityReply(selectedPostId, {
-                user_id: user.id,
                 content: replyContent.trim(),
-                author_name: user.name,
+                author_name: user?.name,
             });
             setReplyContent('');
             fetchPostDetails(selectedPostId);

@@ -35,6 +35,10 @@ def get_posts():
 def create_post():
     data = request.json or {}
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
     title = (data.get('title') or '').strip()
     content = (data.get('content') or '').strip()
     author_name = (data.get('author_name') or '').strip()
@@ -112,6 +116,10 @@ def get_post(post_id):
 def add_reply(post_id):
     data = request.json or {}
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
     content = (data.get('content') or '').strip()
     author_name = (data.get('author_name') or '').strip()
 

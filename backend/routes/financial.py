@@ -18,6 +18,10 @@ CROP_DEFAULTS = {
 def get_autofill_data():
     crop = (request.args.get('crop') or 'rice').lower()
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     defaults = CROP_DEFAULTS.get(crop, CROP_DEFAULTS['rice'])
     auto_price = defaults['price_per_kg']
@@ -159,6 +163,11 @@ def calculate_financials():
 
     user_id = get_jwt_identity()
     if user_id:
+        try:
+            user_id = int(user_id)
+        except (ValueError, TypeError):
+            pass
+    if user_id:
         conn = get_db_connection()
         if conn:
             try:
@@ -205,6 +214,10 @@ def calculate_financials():
 @jwt_required()
 def financial_summary():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:
@@ -230,6 +243,10 @@ def financial_summary():
 @jwt_required()
 def get_financial_history():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:

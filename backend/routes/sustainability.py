@@ -79,6 +79,10 @@ def get_practices():
 def calculate_audit():
     data = request.json or {}
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
     water_hrs = float(data.get('water_hours', 4))
     fertilizer_type = data.get('fertilizer_type', 'Mixed')
     rotation_freq = data.get('crop_rotation', 'Occasional')
@@ -195,6 +199,10 @@ def calculate_audit():
 @jwt_required()
 def get_sustainability_history():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:

@@ -35,10 +35,11 @@ const RiskMonitoring = ({ user }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    getRiskStatus(user?.id)
+    getRiskStatus()
       .then(({ data: d }) => setData(d))
       .catch(() => setError('Failed to load risk data.'))
       .finally(() => setLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   if (loading) {

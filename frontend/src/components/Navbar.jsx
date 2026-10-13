@@ -38,7 +38,7 @@ const Navbar = ({ user, onLogout, onUserUpdate }) => {
 
     if (user?.id) {
       try {
-        await updateProfile({ user_id: user.id, state: newState, district: newDistrict });
+        await updateProfile({ state: newState, district: newDistrict });
         const updatedUser = { ...user, state: newState, district: newDistrict };
         localStorage.setItem('user', JSON.stringify(updatedUser));
         if (onUserUpdate) onUserUpdate(updatedUser);

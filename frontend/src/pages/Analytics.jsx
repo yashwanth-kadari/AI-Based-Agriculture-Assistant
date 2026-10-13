@@ -72,7 +72,6 @@ const Analytics = ({ user }) => {
     setLoading(true);
     try {
       const { data: res } = await getAnalytics({
-        user_id: user?.id,
         period: period,
         crop: selectedCrop,
       });
@@ -82,22 +81,23 @@ const Analytics = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  }, [user?.id, period, selectedCrop]);
+  }, [period, selectedCrop]);
 
   useEffect(() => {
-    if (user?.id) {
+    if (user) {
       fetchAnalyticsData();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, fetchAnalyticsData]);
 
   const handleDownload = async (type) => {
     setDownloading(type);
     try {
-      const { data: blob } = await downloadReport(user.id, type, period, selectedCrop);
+      const { data: blob } = await downloadReport(type, period, selectedCrop);
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `farmer_${type}_report_${user.id}.csv`);
+      link.setAttribute('download', `farmer_${type}_report.csv`);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -113,7 +113,7 @@ const Analytics = ({ user }) => {
     setModalLoading(true);
     setModalMsg('');
     try {
-      await addFinancialRecord({ ...finForm, user_id: user.id });
+      await addFinancialRecord({ ...finForm });
       setModalMsg('Financial record logged successfully!');
       setTimeout(() => {
         setShowFinModal(false);
@@ -143,7 +143,7 @@ const Analytics = ({ user }) => {
     setModalLoading(true);
     setModalMsg('');
     try {
-      await addYieldRecord({ ...yieldForm, user_id: user.id });
+      await addYieldRecord({ ...yieldForm });
       setModalMsg('Crop yield record logged successfully!');
       setTimeout(() => {
         setShowYieldModal(false);

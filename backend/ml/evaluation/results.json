@@ -104,25 +104,25 @@
   },
   "market_forecast_regression": {
     "model_name": "Market Price Forecast (RandomForestRegressor - Time-Series Split)",
-    "overall_mae": 57.62,
-    "overall_r2": 0.997,
+    "overall_mae": 56.4,
+    "overall_r2": 0.9972,
     "horizons": {
       "7_day": {
-        "model_mae": 52.5,
-        "model_r2": 0.9976,
-        "naive_mae": 47.16,
+        "model_mae": 51.8,
+        "model_r2": 0.9977,
+        "naive_mae": 47.17,
         "naive_r2": 0.9981
       },
       "14_day": {
-        "model_mae": 64.53,
-        "model_r2": 0.9965,
-        "naive_mae": 75.59,
+        "model_mae": 64.4,
+        "model_r2": 0.9966,
+        "naive_mae": 75.5,
         "naive_r2": 0.9953
       },
       "30_day": {
-        "model_mae": 56.19,
-        "model_r2": 0.9964,
-        "naive_mae": 106.28,
+        "model_mae": 51.81,
+        "model_r2": 0.9971,
+        "naive_mae": 106.39,
         "naive_r2": 0.9907
       }
     }

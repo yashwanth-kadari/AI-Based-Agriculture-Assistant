@@ -1,3 +1,14 @@
+import os
+try:
+    from dotenv import load_dotenv
+    _env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+    if os.path.exists(_env_path):
+        load_dotenv(_env_path)
+    else:
+        load_dotenv()
+except ImportError:
+    pass
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
@@ -19,7 +30,6 @@ from routes.weather import weather_bp
 from routes.expert import expert_bp
 
 from models import db
-import os
 import config
 
 app = Flask(__name__)
@@ -34,8 +44,8 @@ if "http://127.0.0.1:5173" not in origins:
 CORS(app, resources={r"/api/*": {"origins": origins}}, supports_credentials=True)
 
 # ── Secrets ───────────────────────────────────────────────────────────────────
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'agrismart-flask-session-secret-key-production-2026')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'agrismart-jwt-security-secret-key-production-ready-2026')
 
 # ── Database config ───────────────────────────────────────────────────────────
 # ── SQLAlchemy DB URI — MySQL ONLY, no SQLite fallback ───────────────────────

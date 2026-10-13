@@ -80,7 +80,10 @@ def analyze_soil():
         verify_jwt_in_request(optional=True)
         jwt_uid = get_jwt_identity()
         if jwt_uid:
-            user_id = jwt_uid
+            try:
+                user_id = int(jwt_uid)
+            except (ValueError, TypeError):
+                user_id = jwt_uid
     except Exception:
         pass
     required = ['N', 'P', 'K', 'ph']
@@ -145,6 +148,10 @@ def analyze_soil():
 @jwt_required()
 def get_soil_reports():
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:

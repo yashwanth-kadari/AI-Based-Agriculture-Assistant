@@ -65,16 +65,17 @@ const PestPrediction = ({ user }) => {
   const [historyLoading, setHistoryLoading] = useState(false);
 
   const fetchHistory = useCallback(async () => {
-    if (!user?.id) return;
+    if (!user) return;
     setHistoryLoading(true);
     try {
-      const { data } = await getPestHistory(user.id);
+      const { data } = await getPestHistory();
       setHistoryRecords(data?.history || []);
     } catch (err) {
       console.error('Error fetching pest history:', err);
     } finally {
       setHistoryLoading(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   useEffect(() => {
@@ -82,10 +83,10 @@ const PestPrediction = ({ user }) => {
   }, [fetchHistory]);
 
   const fetchLatestSoilReport = useCallback(async () => {
-    if (!user?.id) return;
+    if (!user) return;
     setLoadingSoilReport(true);
     try {
-      const { data } = await getSoilReports(user.id);
+      const { data } = await getSoilReports();
       if (data?.reports && data.reports.length > 0) {
         const latest = data.reports[0];
         setSoilFormData({
@@ -108,6 +109,7 @@ const PestPrediction = ({ user }) => {
     } finally {
       setLoadingSoilReport(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id, qualitativeData.crop, qualitativeData.symptoms]);
 
   // Auto-fetch latest soil report when Option 2 mode is activated
@@ -184,7 +186,6 @@ const PestPrediction = ({ user }) => {
         humidity: humVal || undefined,
         rainfall: rainVal || undefined,
         location: locationLabel,
-        user_id: user?.id,
         state: user?.state,
         is_estimated: isEstimated,
       };

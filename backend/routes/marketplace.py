@@ -7,13 +7,25 @@ marketplace_bp = Blueprint('marketplace', __name__)
 
 @marketplace_bp.route('/items', methods=['GET'])
 def get_items():
+    from flask_jwt_extended import verify_jwt_in_request
     category = request.args.get('category')
     search = request.args.get('q') or request.args.get('search')
-    user_id = request.args.get('user_id')
     req_state = request.args.get('state')
     req_district = request.args.get('district')
     req_village = request.args.get('city') or request.args.get('village')
     scope = (request.args.get('scope') or 'nearby').lower()
+
+    jwt_user_id = None
+    try:
+        verify_jwt_in_request(optional=True)
+        jwt_raw = get_jwt_identity()
+        if jwt_raw:
+            try:
+                jwt_user_id = int(jwt_raw)
+            except (ValueError, TypeError):
+                jwt_user_id = jwt_raw
+    except Exception:
+        pass
 
     conn = get_db_connection()
     if not conn:
@@ -25,10 +37,10 @@ def get_items():
         user_loc = {'state': None, 'district': None, 'village': None}
         user_loc_missing = False
 
-        if user_id:
+        if jwt_user_id:
             cursor.execute(
-                "SELECT state, district, village FROM users WHERE id = %s OR user_id = %s",
-                (user_id, user_id)
+                "SELECT state, district, village FROM users WHERE id = %s",
+                (jwt_user_id,)
             )
             u_row = cursor.fetchone()
             if u_row:
@@ -145,6 +157,10 @@ def get_items():
 def add_item():
     data = request.json or {}
     user_id = get_jwt_identity()
+    try:
+        user_id = int(user_id)
+    except (ValueError, TypeError):
+        pass
     title = (data.get('title') or '').strip()
     category = (data.get('category') or '').strip()
     description = (data.get('description') or '').strip()
@@ -206,6 +222,10 @@ def delete_item(item_id):
     caller_id = get_jwt_identity()
     if not caller_id:
         return jsonify({'error': 'Unauthorized'}), 401
+    try:
+        caller_id = int(caller_id)
+    except (ValueError, TypeError):
+        pass
 
     conn = get_db_connection()
     if not conn:
